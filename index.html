@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Para Mi Persona Favorita ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Para Christina ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -16,43 +16,39 @@
     }
 
     body {
-      background: linear-gradient(135deg, #1f0814 0%, #3d1028 50%, #15050f 100%);
-      color: #fff;
+      background: #fdf6ec url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><g fill="%23ecd9c6" fill-opacity="0.35"><circle cx="20" cy="20" r="1"/></g></svg>');
+      color: #2c2523;
       font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
     }
 
-    /* Fondo de partículas flotantes */
+    /* Fondo de corazones flotantes sutiles */
     .bg-hearts {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
       z-index: 1;
       overflow: hidden;
     }
 
-    .heart-particle {
+    .heart-float {
       position: absolute;
-      color: rgba(255, 105, 180, 0.35);
+      color: rgba(212, 107, 131, 0.3);
       animation: floatUp 8s linear infinite;
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(105vh) scale(0.6); opacity: 0; }
-      20% { opacity: 0.8; }
-      80% { opacity: 0.8; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+      0% { transform: translateY(105vh) scale(0.7); opacity: 0; }
+      20% { opacity: 0.7; }
+      80% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
     }
 
-    /* Pantalla 1: Sobre cerrado */
+    /* PANTALLA INICIAL: SOBRE */
     #intro-screen {
       position: fixed;
       inset: 0;
@@ -61,32 +57,27 @@
       justify-content: center;
       align-items: center;
       z-index: 50;
-      background: radial-gradient(circle, #2d0c1e 0%, #11030b 100%);
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      background: radial-gradient(circle, #fcf4ea 0%, #ecd7c2 100%);
       padding: 20px;
       text-align: center;
+      transition: opacity 0.7s ease;
     }
 
     .envelope-box {
-      width: 180px;
-      height: 130px;
-      background: #c93b68;
+      width: 170px;
+      height: 125px;
+      background: #c94a6d;
       border-radius: 12px;
       position: relative;
       cursor: pointer;
-      box-shadow: 0 15px 35px rgba(201, 59, 104, 0.45);
+      box-shadow: 0 16px 36px rgba(201, 74, 109, 0.35);
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: transform 0.3s ease;
-      animation: pulseEnvelope 2s infinite ease-in-out;
+      animation: pulseEnv 2s infinite ease-in-out;
     }
 
-    .envelope-box:active {
-      transform: scale(0.95);
-    }
-
-    @keyframes pulseEnvelope {
+    @keyframes pulseEnv {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
@@ -95,65 +86,69 @@
       content: '';
       position: absolute;
       top: 0;
-      border-left: 90px solid transparent;
-      border-right: 90px solid transparent;
-      border-top: 65px solid #a82750;
+      border-left: 85px solid transparent;
+      border-right: 85px solid transparent;
+      border-top: 62px solid #a83252;
     }
 
     .wax-seal {
-      width: 54px;
-      height: 54px;
-      background: radial-gradient(circle, #ffd700, #b8860b);
+      width: 52px;
+      height: 52px;
+      background: radial-gradient(circle, #f4c542, #c78d18);
       border-radius: 50%;
       position: absolute;
       z-index: 2;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
-    .intro-text {
-      margin-top: 30px;
-      font-size: 1.15rem;
-      letter-spacing: 1px;
-      color: #f7d6e0;
-      font-weight: 600;
+    .intro-title {
+      margin-top: 28px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: #3b2820;
     }
 
-    .intro-subtext {
-      margin-top: 8px;
+    .intro-sub {
+      margin-top: 6px;
       font-size: 0.85rem;
-      color: #e0a3b8;
+      color: #8c7365;
     }
 
-    /* Pantalla 2: Contenedor Principal */
+    /* CONTENEDOR PRINCIPAL */
     #main-content {
       width: 100%;
-      max-width: 520px;
-      padding: 25px 18px 60px;
+      max-width: 500px;
+      padding: 25px 16px 60px;
       z-index: 10;
       display: none;
       flex-direction: column;
       align-items: center;
     }
 
-    /* Tocadiscos / Vinilo */
-    .turntable-container {
-      position: relative;
-      margin: 10px auto 25px;
+    /* TOCADISCOS */
+    .turntable-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(90, 60, 40, 0.08);
+      border: 1px solid #f0e2d3;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      margin-bottom: 22px;
     }
 
     .vinyl-record {
-      width: 190px;
-      height: 190px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
-      background: radial-gradient(circle, #2b2b2b 25%, #0d0d0d 60%, #1f1f1f 70%, #000 100%);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 0 3px #333;
+      background: radial-gradient(circle, #2b2b2b 25%, #111111 60%, #1a1a1a 70%, #050505 100%);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
       position: relative;
       display: flex;
       justify-content: center;
@@ -161,29 +156,29 @@
       cursor: pointer;
     }
 
-    .vinyl-grooves {
+    .vinyl-groove {
       position: absolute;
-      inset: 12px;
+      inset: 10px;
       border-radius: 50%;
       border: 1px dashed rgba(255,255,255,0.08);
       pointer-events: none;
     }
 
     .vinyl-center-img {
-      width: 82px;
-      height: 82px;
+      width: 78px;
+      height: 78px;
       border-radius: 50%;
       border: 3px solid #d4af37;
       object-fit: cover;
-      box-shadow: 0 0 12px rgba(0,0,0,0.6);
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
       z-index: 2;
     }
 
     .vinyl-hole {
       position: absolute;
-      width: 14px;
-      height: 14px;
-      background: #15050f;
+      width: 12px;
+      height: 12px;
+      background: #fff;
       border-radius: 50%;
       border: 1px solid #d4af37;
       z-index: 3;
@@ -201,81 +196,88 @@
       100% { transform: rotate(360deg); }
     }
 
-    .song-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      padding: 6px 14px;
+    .music-pill {
+      margin-top: 14px;
+      background: #fdf2f4;
+      color: #b83b5e;
+      border: 1px solid #f7cad4;
+      padding: 6px 16px;
       border-radius: 20px;
       font-size: 0.8rem;
-      color: #ffd6e0;
-      margin-top: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
     }
 
-    /* Carta Romántica */
-    .letter-card {
-      background: rgba(255, 255, 255, 0.94);
-      color: #2b1720;
-      border-radius: 20px;
-      padding: 24px 20px;
+    /* CITA DE LA CANCIÓN (COMO EN TU IMAGEN) */
+    .song-quote-card {
+      background: #fcf6ef;
+      border-radius: 12px;
+      padding: 14px 18px;
       width: 100%;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-      margin-bottom: 25px;
-      border: 1px solid rgba(255, 192, 203, 0.4);
+      margin-bottom: 20px;
+      border-left: 4px solid #c92a42;
+      box-shadow: 0 4px 14px rgba(90, 60, 40, 0.05);
+    }
+
+    .song-quote-card p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #4a382f;
+      font-size: 0.96rem;
+      line-height: 1.5;
+    }
+
+    /* CARTA ROMÁNTICA */
+    .letter-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 26px 20px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(90, 60, 40, 0.08);
+      border: 1px solid #f0e2d3;
+      margin-bottom: 24px;
     }
 
     .letter-card h1 {
       font-family: 'Dancing Script', cursive;
-      font-size: 2.2rem;
-      color: #b5224e;
+      font-size: 2.3rem;
+      color: #b83b5e;
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .letter-card p {
-      font-size: 0.93rem;
-      line-height: 1.65;
-      margin-bottom: 12px;
-      color: #403038;
+      font-size: 0.94rem;
+      line-height: 1.75;
+      color: #423631;
+      margin-bottom: 14px;
       text-align: justify;
     }
 
-    .special-date {
-      text-align: center;
-      font-weight: 700;
-      color: #b5224e;
-      font-size: 0.95rem;
-      margin-top: 15px;
-      border-top: 1px dashed #e6a9bd;
-      padding-top: 12px;
-      letter-spacing: 0.5px;
-    }
-
-    /* Galería Polaroid */
+    /* POLAROIDS */
     .photo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       width: 100%;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .polaroid {
       background: #fff;
-      padding: 8px 8px 16px;
+      padding: 8px 8px 14px;
       border-radius: 6px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
       text-align: center;
-      transition: transform 0.25s ease;
     }
 
     .polaroid img {
       width: 100%;
-      height: 150px;
+      height: 140px;
       object-fit: cover;
       border-radius: 4px;
       display: block;
@@ -290,222 +292,308 @@
     }
 
     .polaroid:nth-child(1) { transform: rotate(-2deg); }
-    .polaroid:nth-child(2) { transform: rotate(3deg); }
+    .polaroid:nth-child(2) { transform: rotate(2deg); }
     .polaroid:nth-child(3) { transform: rotate(2deg); }
-    .polaroid:nth-child(4) { transform: rotate(-3deg); }
+    .polaroid:nth-child(4) { transform: rotate(-2deg); }
 
-    /* Pregunta y Botones */
-    .proposal-section {
-      text-align: center;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
+    /* SECCIÓN DE PROPUESTA (IDÉNTICA A TU CAPTURA) */
+    .proposal-box {
+      background: #ffffff;
       border-radius: 20px;
-      padding: 24px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 30px 18px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(90, 60, 40, 0.08);
+      border: 1px solid #f0e2d3;
+      text-align: center;
     }
 
-    .proposal-title {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.1rem;
-      color: #ff9ebb;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 10px rgba(255, 105, 180, 0.3);
+    .proposal-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1f1815;
+      margin-bottom: 8px;
     }
 
-    .buttons-wrap {
+    .proposal-sub {
+      font-size: 0.9rem;
+      color: #66544b;
+      margin-bottom: 25px;
+    }
+
+    .proposal-sub .heart-icon {
+      color: #e63946;
+      display: inline-block;
+    }
+
+    .actions-wrap {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
       min-height: 70px;
       position: relative;
     }
 
-    .btn {
-      padding: 12px 28px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      border-radius: 30px;
+    /* Botón SÍ Verde (Como tu imagen) */
+    .btn-yes-green {
+      background: #238652;
+      color: #ffffff;
       border: none;
+      padding: 13px 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(35, 134, 82, 0.35);
+      transition: transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .btn-yes {
-      background: linear-gradient(45deg, #e63946, #ff758f);
-      color: #fff;
-      box-shadow: 0 8px 20px rgba(230, 57, 70, 0.45);
+    /* Botón NO (Huidizo) */
+    .btn-no-clean {
+      background: #f4ece2;
+      color: #3b2f29;
+      border: none;
+      padding: 13px 26px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .btn-no {
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-    }
-
-    /* Modal de Celebración Final */
+    /* MODAL CELEBRACIÓN (IDÉNTICO A TU SEGUNDA IMAGEN) */
     #celebration-modal {
       position: fixed;
       inset: 0;
-      background: rgba(18, 2, 11, 0.92);
-      backdrop-filter: blur(8px);
+      background: rgba(30, 20, 15, 0.7);
+      backdrop-filter: blur(5px);
       z-index: 100;
       display: none;
       justify-content: center;
       align-items: center;
-      padding: 20px;
-      text-align: center;
+      padding: 18px;
     }
 
-    .celebration-card {
-      background: #fff;
-      color: #2b1720;
-      padding: 30px 22px;
-      border-radius: 24px;
-      max-width: 400px;
+    .modal-frame {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 34px 22px;
+      max-width: 410px;
       width: 100%;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.5);
-      animation: popIn 0.5s ease-out;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+      border: 3px solid #e8c89b;
+      animation: popModal 0.4s ease-out;
     }
 
-    @keyframes popIn {
-      0% { transform: scale(0.7); opacity: 0; }
+    @keyframes popModal {
+      0% { transform: scale(0.8); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
 
-    .celebration-card h2 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.5rem;
-      color: #c92a58;
-      margin-bottom: 12px;
+    .modal-badge {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: #ffe6ec;
+      border: 2px solid #f7cad4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      margin: 0 auto 16px;
     }
 
-    .celebration-card p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: #555;
+    .modal-frame h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 2.3rem;
+      color: #1a1614;
+      margin-bottom: 4px;
+    }
+
+    .modal-status {
+      font-size: 1.15rem;
+      color: #c92a42;
+      font-weight: 700;
       margin-bottom: 16px;
     }
 
-    .celebration-date {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #b5224e;
-      background: #ffe3ec;
-      padding: 10px 14px;
+    .modal-desc {
+      font-size: 0.92rem;
+      color: #4a3e38;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .date-box {
+      background: #fbf6f0;
+      border: 1px solid #eedecb;
       border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 22px;
+    }
+
+    .date-label {
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: #8c7365;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .date-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #211c19;
+    }
+
+    .btn-heart-save {
+      width: 100%;
+      background: linear-gradient(90deg, #9b0f27, #c92a42);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(155, 15, 39, 0.35);
     }
   </style>
 </head>
 <body>
 
-  <!-- Audio nativo optimizado para móviles -->
+  <!-- Audio nativo -->
   <audio id="audioTrack" preload="auto" loop>
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Partículas de corazones -->
-  <div class="bg-hearts" id="hearts-container"></div>
+  <div class="bg-hearts" id="hearts-layer"></div>
 
   <!-- PANTALLA 1: SOBRE -->
   <div id="intro-screen">
     <div class="envelope-box" id="open-envelope-btn">
       <div class="wax-seal">💌</div>
     </div>
-    <div class="intro-text">Tengo una pregunta especial para ti...</div>
-    <div class="intro-subtext">(Toca el sobre para abrirlo)</div>
+    <div class="intro-title">Para Christina, mi persona favorita...</div>
+    <div class="intro-sub">(Toca el sobre para abrirlo)</div>
   </div>
 
-  <!-- PANTALLA 2: CONTENIDO PRINCIPAL -->
+  <!-- PANTALLA 2: CONTENIDO -->
   <div id="main-content">
 
     <!-- Tocadiscos -->
-    <div class="turntable-container">
-      <div class="vinyl-record spinning" id="vinyl" title="Toca para pausar/reproducir">
-        <div class="vinyl-grooves"></div>
-        <img src="imagen_5.jpg" alt="Nosotros" class="vinyl-center-img" id="vinyl-img" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300'">
+    <div class="turntable-card">
+      <div class="vinyl-record spinning" id="vinyl" title="Toca para pausar/reanudar">
+        <div class="vinyl-groove"></div>
+        <img src="imagen_5.jpg" alt="Christina" class="vinyl-center-img" onerror="this.src='imagen_5.jpeg'">
         <div class="vinyl-hole"></div>
+      </div>
+      <div class="music-pill" id="music-btn">
+        <span id="music-icon">🎵</span> Sebastián Yatra - Cristina
       </div>
     </div>
 
-    <div class="song-badge" id="music-btn">
-      <span id="music-icon">🎵</span> Sebastián Yatra - Cristina
+    <!-- Cita de la canción -->
+    <div class="song-quote-card">
+      <p>"Entre tanta gente yo te vi llegar... algo en el destino me hizo saludar."</p>
     </div>
 
-    <!-- Carta -->
+    <!-- Carta con tus palabras -->
     <div class="letter-card">
       <h1>Hola, mi amor...</h1>
       <p>
-        Desde que llegaste a mi vida, cada momento a tu lado se ha vuelto inolvidable. Tu sonrisa, tus abrazos y cada instante que compartimos hacen que todo tenga un sentido mucho más bonito.
+        Mi Christina, amor mío, mi amor que me enamoró desde el instante en que la miré... No tengo palabras para decir lo feliz que me siento al estar a su lado y saber que usted es real, que no es "fake" como diría jaja.
       </p>
       <p>
-        No quería dejar pasar más tiempo sin decirte lo mucho que significas para mí y lo inmensamente feliz que me hace caminar a tu lado.
+        Aunque hemos compartido momentos que parecen cortos, han sido suficientes para darme cuenta de que es la mujer que quiero para mi vida. Recordar nuestro viaje a Baños me hace revivir cómo me sentí el hombre más feliz del mundo a su lado, y quiero seguir sumando momentos así de especiales.
       </p>
-      <div class="special-date">
-        Jueves, 29 de octubre de 2026 ❤️
-      </div>
+      <p>
+        No le prometo una vida llena de alegrías perfectas, pero sí prometo una vida completa a su lado, los dos juntos siendo lo que somos: unos locos. Sé que en la vida siempre habrá problemas, pero le prometo resolverlos como ingeniero jaja, y que usted los cure como enfermera. En este tiempo he empezado a amarla tan lindo que ya no quiero que se vaya nunca de mi vida.
+      </p>
+      <p style="text-align:center; font-weight:600; color:#b83b5e; margin-top:15px;">
+        Esto siento en el alma y me hace preguntarle con todo mi corazón...
+      </p>
     </div>
 
-    <!-- Fotos polaroid -->
+    <!-- Polaroids -->
     <div class="photo-grid">
       <div class="polaroid">
         <img src="imagen_3.jpg" alt="Foto 1" onerror="this.src='imagen_3.jpeg'">
-        <span>Inolvidable ✨</span>
+        <span>Elegantes juntos ✨</span>
       </div>
       <div class="polaroid">
         <img src="imagen_4.jpg" alt="Foto 2" onerror="this.src='imagen_4.jpeg'">
-        <span>Juntos siempre 🎓</span>
+        <span>Logros compartidos 🎓</span>
       </div>
       <div class="polaroid">
         <img src="imagen.jpg" alt="Foto 3" onerror="this.src='imagen.jpeg'">
-        <span>Tus risas ☀️</span>
+        <span>Viaje a Baños ⛰️</span>
       </div>
       <div class="polaroid">
         <img src="imagen_2.jpg" alt="Foto 4" onerror="this.src='imagen_2.jpeg'">
-        <span>Mi favorita 💖</span>
+        <span>Nuestras locuras 💖</span>
       </div>
     </div>
 
-    <!-- Pregunta -->
-    <div class="proposal-section">
-      <div class="proposal-title">¿Quieres ser mi novia?</div>
-      <div class="buttons-wrap">
-        <button class="btn btn-yes" id="btn-yes">¡SÍ! 🥰</button>
-        <button class="btn btn-no" id="btn-no">No 🙈</button>
+    <!-- SECCIÓN PROPUESTA -->
+    <div class="proposal-box">
+      <h2>¿Quieres ser mi novia?</h2>
+      <div class="proposal-sub">
+        Prometo hacerte sonreír cada uno de mis días <span class="heart-icon">❤️</span>
+      </div>
+      <div class="actions-wrap">
+        <button class="btn-yes-green" id="btn-yes">
+          ¡SÍ, ACEPTO! 💍
+        </button>
+        <button class="btn-no-clean" id="btn-no">No</button>
       </div>
     </div>
 
   </div>
 
-  <!-- MODAL DE ÉXITO -->
+  <!-- MODAL FINAL (Dijo que sí) -->
   <div id="celebration-modal">
-    <div class="celebration-card">
-      <h2>¡Dijo que SÍ! 💍✨</h2>
-      <p>Prometo hacerte sonreír todos los días y cuidar este amor tan bonito que tenemos.</p>
-      <div class="celebration-date">
-        Jueves, 29 de octubre de 2026<br>
-        <span style="font-size:0.85rem; font-weight:normal;">Nuestra fecha oficial para siempre ❤️</span>
+    <div class="modal-frame">
+      <div class="modal-badge">💖</div>
+      <h3>¡Dijo que sí!</h3>
+      <div class="modal-status">¡Oficialmente somos novios! 🎉</div>
+      <div class="modal-desc">
+        Gracias por hacerme el hombre más feliz del mundo. Hoy empieza la aventura más hermosa de nuestras vidas. Te amo.
       </div>
+      <div class="date-box">
+        <div class="date-label">Fecha Inolvidable</div>
+        <div class="date-value">jueves, 29 de octubre de 2026</div>
+      </div>
+      <button class="btn-heart-save" onclick="dispararMasConfeti()">
+        Guardar este momento en el corazón ✨
+      </button>
     </div>
   </div>
 
   <script>
-    // Partículas de fondo
-    const heartsContainer = document.getElementById('hearts-container');
-    const icons = ['❤️', '💖', '✨', '🌸', '💕'];
-    for (let i = 0; i < 22; i++) {
-      const heart = document.createElement('div');
-      heart.className = 'heart-particle';
-      heart.innerText = icons[Math.floor(Math.random() * icons.length)];
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
-      heart.style.animationDelay = (Math.random() * 5) + 's';
-      heart.style.fontSize = (14 + Math.random() * 18) + 'px';
-      heartsContainer.appendChild(heart);
+    // Corazones flotantes
+    const heartsLayer = document.getElementById('hearts-layer');
+    const heartIcons = ['❤️', '🌸', '✨', '💕', '🌹'];
+    for (let i = 0; i < 20; i++) {
+      const el = document.createElement('div');
+      el.className = 'heart-float';
+      el.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (6 + Math.random() * 6) + 's';
+      el.style.animationDelay = (Math.random() * 5) + 's';
+      el.style.fontSize = (14 + Math.random() * 16) + 'px';
+      heartsLayer.appendChild(el);
     }
 
-    // Audio & Apertura (Optimizado para teléfonos)
+    // Audio & Apertura
     const audio = document.getElementById('audioTrack');
     const introScreen = document.getElementById('intro-screen');
     const mainContent = document.getElementById('main-content');
@@ -515,14 +603,12 @@
     const openBtn = document.getElementById('open-envelope-btn');
 
     function startExperience() {
-      // Intentar reproducir música inmediatamente con el toque del usuario
       audio.play().then(() => {
         vinyl.classList.remove('paused');
-      }).catch((e) => {
-        console.log("Esperando toque manual de audio:", e);
+      }).catch(err => {
+        console.log("Audio en espera de interacción táctil", err);
       });
 
-      // Transición del sobre a la carta
       introScreen.style.opacity = '0';
       setTimeout(() => {
         introScreen.style.display = 'none';
@@ -531,11 +617,9 @@
       }, 700);
     }
 
-    // Escuchar tanto click como touchstart para máxima compatibilidad móvil
     openBtn.addEventListener('click', startExperience);
     openBtn.addEventListener('touchstart', startExperience, { passive: true });
 
-    // Control de pausa y reproducción en el vinilo
     function toggleAudio() {
       if (audio.paused) {
         audio.play();
@@ -551,44 +635,32 @@
     vinyl.addEventListener('click', toggleAudio);
     musicBtn.addEventListener('click', toggleAudio);
 
-    // Botón travieso "NO" y crecimiento del botón "SÍ"
+    // Botón evasivo "NO"
     const btnNo = document.getElementById('btn-no');
     const btnYes = document.getElementById('btn-yes');
     let scale = 1;
-    const noPhrases = [
-      '¿Segura? 🥺',
-      'Piénsalo otra vez... 💕',
-      '¡No se vale! 🙈',
-      'Intenta de nuevo ❤️',
-      'El botón de al lado es más bonito ✨'
-    ];
-    let phraseIndex = 0;
 
     function moveNoBtn(e) {
-      e.preventDefault();
-      const x = (Math.random() - 0.5) * 160;
-      const y = (Math.random() - 0.5) * 100;
+      if (e) e.preventDefault();
+      const x = (Math.random() - 0.5) * 150;
+      const y = (Math.random() - 0.5) * 90;
       btnNo.style.transform = `translate(${x}px, ${y}px)`;
-      
-      scale += 0.18;
+      scale += 0.16;
       btnYes.style.transform = `scale(${scale})`;
-
-      btnNo.innerText = noPhrases[phraseIndex % noPhrases.length];
-      phraseIndex++;
     }
 
     btnNo.addEventListener('mouseover', moveNoBtn);
     btnNo.addEventListener('touchstart', moveNoBtn, { passive: false });
     btnNo.addEventListener('click', moveNoBtn);
 
-    // Botón "SÍ" y Fuegos artificiales
+    // Botón SÍ
     btnYes.addEventListener('click', () => {
       document.getElementById('celebration-modal').style.display = 'flex';
-      
-      // Disparar confeti
-      const duration = 4000;
-      const end = Date.now() + duration;
+      dispararMasConfeti();
+    });
 
+    function dispararMasConfeti() {
+      const end = Date.now() + 3500;
       (function frame() {
         confetti({
           particleCount: 5,
@@ -602,12 +674,11 @@
           spread: 55,
           origin: { x: 1 }
         });
-
         if (Date.now() < end) {
           requestAnimationFrame(frame);
         }
       }());
-    });
+    }
   </script>
 </body>
 </html>
