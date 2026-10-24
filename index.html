@@ -26,7 +26,7 @@
       align-items: center;
     }
 
-    /* Fondo de corazones flotantes sutiles */
+    /* Fondo de corazones flotantes */
     .bg-hearts {
       position: fixed;
       inset: 0;
@@ -211,7 +211,7 @@
       cursor: pointer;
     }
 
-    /* CITA DE LA CANCIÓN (COMO EN TU IMAGEN) */
+    /* CITA DE LA CANCIÓN */
     .song-quote-card {
       background: #fcf6ef;
       border-radius: 12px;
@@ -296,7 +296,7 @@
     .polaroid:nth-child(3) { transform: rotate(2deg); }
     .polaroid:nth-child(4) { transform: rotate(-2deg); }
 
-    /* SECCIÓN DE PROPUESTA (IDÉNTICA A TU CAPTURA) */
+    /* SECCIÓN DE PROPUESTA */
     .proposal-box {
       background: #ffffff;
       border-radius: 20px;
@@ -335,7 +335,6 @@
       position: relative;
     }
 
-    /* Botón SÍ Verde (Como tu imagen) */
     .btn-yes-green {
       background: #238652;
       color: #ffffff;
@@ -352,7 +351,6 @@
       gap: 6px;
     }
 
-    /* Botón NO (Huidizo) */
     .btn-no-clean {
       background: #f4ece2;
       color: #3b2f29;
@@ -365,11 +363,11 @@
       transition: all 0.2s ease;
     }
 
-    /* MODAL CELEBRACIÓN (IDÉNTICO A TU SEGUNDA IMAGEN) */
+    /* MODAL CELEBRACIÓN CON BOTÓN 'X' */
     #celebration-modal {
       position: fixed;
       inset: 0;
-      background: rgba(30, 20, 15, 0.7);
+      background: rgba(30, 20, 15, 0.75);
       backdrop-filter: blur(5px);
       z-index: 100;
       display: none;
@@ -381,13 +379,40 @@
     .modal-frame {
       background: #ffffff;
       border-radius: 22px;
-      padding: 34px 22px;
+      padding: 34px 22px 28px;
       max-width: 410px;
       width: 100%;
       text-align: center;
       box-shadow: 0 20px 45px rgba(0,0,0,0.3);
       border: 3px solid #e8c89b;
+      position: relative;
       animation: popModal 0.4s ease-out;
+    }
+
+    /* Botón X para cerrar y volver */
+    .modal-close-x {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f5ebe0;
+      color: #634f43;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .modal-close-x:active {
+      transform: scale(0.92);
+      background: #e2d2c2;
     }
 
     @keyframes popModal {
@@ -470,9 +495,13 @@
 </head>
 <body>
 
-  <!-- Audio nativo -->
-  <audio id="audioTrack" preload="auto" loop>
+  <!-- Pistas de audio -->
+  <audio id="audioPrincipal" preload="auto" loop>
     <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="audioCelebracion" preload="auto" loop>
+    <source src="musica_celebracion.mp3" type="audio/mpeg">
   </audio>
 
   <div class="bg-hearts" id="hearts-layer"></div>
@@ -497,7 +526,7 @@
         <div class="vinyl-hole"></div>
       </div>
       <div class="music-pill" id="music-btn">
-        <span id="music-icon">🎵</span> Sebastián Yatra - Cristina
+        <span id="music-icon">🎵</span> <span id="music-title">Sebastián Yatra - Cristina</span>
       </div>
     </div>
 
@@ -559,9 +588,12 @@
 
   </div>
 
-  <!-- MODAL FINAL (Dijo que sí) -->
+  <!-- MODAL FINAL (Dijo que sí) CON BOTÓN 'X' -->
   <div id="celebration-modal">
     <div class="modal-frame">
+      <!-- Botón X para regresar a la carta -->
+      <button class="modal-close-x" id="btn-close-modal" title="Volver al mensaje">✕</button>
+
       <div class="modal-badge">💖</div>
       <h3>¡Dijo que sí!</h3>
       <div class="modal-status">¡Oficialmente somos novios! 🎉</div>
@@ -579,7 +611,7 @@
   </div>
 
   <script>
-    // Corazones flotantes
+    // Partículas de corazones flotantes
     const heartsLayer = document.getElementById('hearts-layer');
     const heartIcons = ['❤️', '🌸', '✨', '💕', '🌹'];
     for (let i = 0; i < 20; i++) {
@@ -593,17 +625,22 @@
       heartsLayer.appendChild(el);
     }
 
-    // Audio & Apertura
-    const audio = document.getElementById('audioTrack');
+    // Elementos de Audio
+    const audioPrincipal = document.getElementById('audioPrincipal');
+    const audioCelebracion = document.getElementById('audioCelebracion');
+    let musicaActual = audioPrincipal;
+
     const introScreen = document.getElementById('intro-screen');
     const mainContent = document.getElementById('main-content');
     const vinyl = document.getElementById('vinyl');
     const musicBtn = document.getElementById('music-btn');
     const musicIcon = document.getElementById('music-icon');
+    const musicTitle = document.getElementById('music-title');
     const openBtn = document.getElementById('open-envelope-btn');
 
+    // Apertura del sobre
     function startExperience() {
-      audio.play().then(() => {
+      audioPrincipal.play().then(() => {
         vinyl.classList.remove('paused');
       }).catch(err => {
         console.log("Audio en espera de interacción táctil", err);
@@ -620,13 +657,14 @@
     openBtn.addEventListener('click', startExperience);
     openBtn.addEventListener('touchstart', startExperience, { passive: true });
 
+    // Control de pausa/reanudación en el disco
     function toggleAudio() {
-      if (audio.paused) {
-        audio.play();
+      if (musicaActual.paused) {
+        musicaActual.play();
         vinyl.classList.remove('paused');
         musicIcon.innerText = '🎵';
       } else {
-        audio.pause();
+        musicaActual.pause();
         vinyl.classList.add('paused');
         musicIcon.innerText = '⏸️';
       }
@@ -653,12 +691,43 @@
     btnNo.addEventListener('touchstart', moveNoBtn, { passive: false });
     btnNo.addEventListener('click', moveNoBtn);
 
-    // Botón SÍ
+    // Al hacer clic en ¡SÍ, ACEPTO! -> Cambia la música y muestra modal
+    const celebrationModal = document.getElementById('celebration-modal');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+
     btnYes.addEventListener('click', () => {
-      document.getElementById('celebration-modal').style.display = 'flex';
+      celebrationModal.style.display = 'flex';
+
+      // 1. Pausar la canción anterior
+      audioPrincipal.pause();
+
+      // 2. Reproducir la música de celebración
+      audioCelebracion.currentTime = 0;
+      audioCelebracion.play().then(() => {
+        musicaActual = audioCelebracion;
+        musicTitle.innerText = "¡Nuestra Canción Oficial! ❤️";
+        vinyl.classList.remove('paused');
+      }).catch(err => {
+        console.log("Error al reproducir audio de celebración:", err);
+      });
+
       dispararMasConfeti();
     });
 
+    // Al presionar la 'X' -> Cierra modal y regresa a la carta
+    btnCloseModal.addEventListener('click', () => {
+      celebrationModal.style.display = 'none';
+
+      // Detiene la de celebración y retoma la principal si deseas
+      audioCelebracion.pause();
+      audioPrincipal.play().then(() => {
+        musicaActual = audioPrincipal;
+        musicTitle.innerText = "Sebastián Yatra - Cristina";
+        vinyl.classList.remove('paused');
+      }).catch(err => console.log(err));
+    });
+
+    // Fuegos artificiales de confeti
     function dispararMasConfeti() {
       const end = Date.now() + 3500;
       (function frame() {
