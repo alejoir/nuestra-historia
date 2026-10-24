@@ -363,11 +363,11 @@
       transition: all 0.2s ease;
     }
 
-    /* MODAL CELEBRACIÓN CON BOTÓN 'X' */
+    /* MODAL CELEBRACIÓN */
     #celebration-modal {
       position: fixed;
       inset: 0;
-      background: rgba(30, 20, 15, 0.75);
+      background: rgba(30, 20, 15, 0.78);
       backdrop-filter: blur(5px);
       z-index: 100;
       display: none;
@@ -379,17 +379,18 @@
     .modal-frame {
       background: #ffffff;
       border-radius: 22px;
-      padding: 34px 22px 28px;
+      padding: 34px 22px 26px;
       max-width: 410px;
       width: 100%;
       text-align: center;
       box-shadow: 0 20px 45px rgba(0,0,0,0.3);
       border: 3px solid #e8c89b;
       position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
       animation: popModal 0.4s ease-out;
     }
 
-    /* Botón X para cerrar y volver */
     .modal-close-x {
       position: absolute;
       top: 14px;
@@ -445,14 +446,30 @@
       font-size: 1.15rem;
       color: #c92a42;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+
+    /* Nota de la canción dedicada */
+    .song-dedication-note {
+      font-size: 0.88rem;
+      color: #b5224e;
+      background: #fff0f3;
+      border: 1px dashed #f7cad4;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .modal-desc {
       font-size: 0.92rem;
       color: #4a3e38;
       line-height: 1.6;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .date-box {
@@ -460,7 +477,7 @@
       border: 1px solid #eedecb;
       border-radius: 12px;
       padding: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .date-label {
@@ -479,6 +496,57 @@
       color: #211c19;
     }
 
+    /* Botón cámara iPhone */
+    .btn-camera {
+      width: 100%;
+      background: #ffffff;
+      color: #b5224e;
+      border: 2px solid #b5224e;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(181, 34, 78, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .btn-camera:active {
+      transform: scale(0.97);
+      background: #fdf2f4;
+    }
+
+    /* Vista previa de foto tomada */
+    #photo-preview-wrap {
+      display: none;
+      margin-bottom: 16px;
+      background: #fbf6f0;
+      border: 1px solid #eedecb;
+      padding: 10px;
+      border-radius: 14px;
+    }
+
+    #captured-photo {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      display: block;
+    }
+
+    .photo-caption {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      color: #7a3e2d;
+      margin-top: 8px;
+    }
+
     .btn-heart-save {
       width: 100%;
       background: linear-gradient(90deg, #9b0f27, #c92a42);
@@ -495,7 +563,7 @@
 </head>
 <body>
 
-  <!-- Pistas de audio -->
+  <!-- Pistas de audio precargadas -->
   <audio id="audioPrincipal" preload="auto" loop>
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
@@ -588,22 +656,42 @@
 
   </div>
 
-  <!-- MODAL FINAL (Dijo que sí) CON BOTÓN 'X' -->
+  <!-- MODAL FINAL (Dijo que sí) -->
   <div id="celebration-modal">
     <div class="modal-frame">
-      <!-- Botón X para regresar a la carta -->
       <button class="modal-close-x" id="btn-close-modal" title="Volver al mensaje">✕</button>
 
       <div class="modal-badge">💖</div>
       <h3>¡Dijo que sí!</h3>
       <div class="modal-status">¡Oficialmente somos novios! 🎉</div>
-      <div class="modal-desc">
-        Gracias por hacerme el hombre más feliz del mundo. Hoy empieza la aventura más hermosa de nuestras vidas.
+
+      <!-- Dedicatoria musical -->
+      <div class="song-dedication-note">
+        🎶 Escucha la canción que te dediqué por primera vez... ❤️
       </div>
+
+      <div class="modal-desc">
+        Gracias por hacerme el hombre más feliz del mundo. Hoy empieza la aventura más hermosa de nuestras vidas. Te amo.
+      </div>
+
       <div class="date-box">
         <div class="date-label">Fecha Inolvidable</div>
         <div class="date-value">jueves, 29 de octubre de 2026</div>
       </div>
+
+      <!-- Cámara iPhone -->
+      <input type="file" id="cameraInput" accept="image/*" capture="user" style="display: none;">
+      
+      <button class="btn-camera" id="btn-trigger-camera">
+        📸 Tómate una foto para el recuerdo
+      </button>
+
+      <!-- Foto tomada -->
+      <div id="photo-preview-wrap">
+        <img id="captured-photo" src="" alt="Recuerdo">
+        <div class="photo-caption">Nuestra primera foto de novios ✨</div>
+      </div>
+
       <button class="btn-heart-save" onclick="dispararMasConfeti()">
         Guardar este momento en el corazón ✨
       </button>
@@ -611,7 +699,7 @@
   </div>
 
   <script>
-    // Partículas de corazones flotantes
+    // Partículas de fondo
     const heartsLayer = document.getElementById('hearts-layer');
     const heartIcons = ['❤️', '🌸', '✨', '💕', '🌹'];
     for (let i = 0; i < 20; i++) {
@@ -625,7 +713,7 @@
       heartsLayer.appendChild(el);
     }
 
-    // Elementos de Audio
+    // Audio & Elementos
     const audioPrincipal = document.getElementById('audioPrincipal');
     const audioCelebracion = document.getElementById('audioCelebracion');
     let musicaActual = audioPrincipal;
@@ -638,13 +726,16 @@
     const musicTitle = document.getElementById('music-title');
     const openBtn = document.getElementById('open-envelope-btn');
 
-    // Apertura del sobre
+    // Apertura del sobre: desbloquea ambos audios en el móvil
     function startExperience() {
       audioPrincipal.play().then(() => {
         vinyl.classList.remove('paused');
       }).catch(err => {
-        console.log("Audio en espera de interacción táctil", err);
+        console.log("Esperando interacción:", err);
       });
+
+      // Precarga el segundo audio
+      audioCelebracion.load();
 
       introScreen.style.opacity = '0';
       setTimeout(() => {
@@ -657,7 +748,7 @@
     openBtn.addEventListener('click', startExperience);
     openBtn.addEventListener('touchstart', startExperience, { passive: true });
 
-    // Control de pausa/reanudación en el disco
+    // Alternar pausa en el vinilo
     function toggleAudio() {
       if (musicaActual.paused) {
         musicaActual.play();
@@ -691,34 +782,40 @@
     btnNo.addEventListener('touchstart', moveNoBtn, { passive: false });
     btnNo.addEventListener('click', moveNoBtn);
 
-    // Al hacer clic en ¡SÍ, ACEPTO! -> Cambia la música y muestra modal
+    // Al hacer clic en SÍ, ACEPTO
     const celebrationModal = document.getElementById('celebration-modal');
     const btnCloseModal = document.getElementById('btn-close-modal');
 
     btnYes.addEventListener('click', () => {
       celebrationModal.style.display = 'flex';
 
-      // 1. Pausar la canción anterior
+      // 1. Detener la música principal
       audioPrincipal.pause();
+      audioPrincipal.currentTime = 0;
 
-      // 2. Reproducir la música de celebración
+      // 2. Encender la música de celebración
       audioCelebracion.currentTime = 0;
-      audioCelebracion.play().then(() => {
-        musicaActual = audioCelebracion;
-        musicTitle.innerText = "¡Nuestra Canción Oficial! ❤️";
-        vinyl.classList.remove('paused');
-      }).catch(err => {
-        console.log("Error al reproducir audio de celebración:", err);
-      });
+      audioCelebracion.volume = 1.0;
+      
+      const playPromise = audioCelebracion.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          musicaActual = audioCelebracion;
+          musicTitle.innerText = "¡Nuestra Canción Oficial! ❤️";
+          vinyl.classList.remove('paused');
+        }).catch(err => {
+          console.error("Error reproduciendo celebración:", err);
+          audioPrincipal.play();
+        });
+      }
 
       dispararMasConfeti();
     });
 
-    // Al presionar la 'X' -> Cierra modal y regresa a la carta
+    // Botón X para cerrar modal y regresar
     btnCloseModal.addEventListener('click', () => {
       celebrationModal.style.display = 'none';
 
-      // Detiene la de celebración y retoma la principal si deseas
       audioCelebracion.pause();
       audioPrincipal.play().then(() => {
         musicaActual = audioPrincipal;
@@ -727,7 +824,46 @@
       }).catch(err => console.log(err));
     });
 
-    // Fuegos artificiales de confeti
+    // Cámara en iPhone y persistencia de foto
+    const cameraInput = document.getElementById('cameraInput');
+    const btnTriggerCamera = document.getElementById('btn-trigger-camera');
+    const photoPreviewWrap = document.getElementById('photo-preview-wrap');
+    const capturedPhoto = document.getElementById('captured-photo');
+
+    btnTriggerCamera.addEventListener('click', () => {
+      cameraInput.click();
+    });
+
+    cameraInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          capturedPhoto.src = event.target.result;
+          photoPreviewWrap.style.display = 'block';
+          btnTriggerCamera.innerHTML = '📸 Tomar otra foto';
+          
+          try {
+            localStorage.setItem('fotoRecuerdoNovios', event.target.result);
+          } catch(err) {
+            console.log("Almacenamiento local restringido");
+          }
+          
+          dispararMasConfeti();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Cargar foto si ya se había tomado previamente
+    const savedPhoto = localStorage.getItem('fotoRecuerdoNovios');
+    if (savedPhoto) {
+      capturedPhoto.src = savedPhoto;
+      photoPreviewWrap.style.display = 'block';
+      btnTriggerCamera.innerHTML = '📸 Tomar otra foto';
+    }
+
+    // Efecto de Confeti
     function dispararMasConfeti() {
       const end = Date.now() + 3500;
       (function frame() {
