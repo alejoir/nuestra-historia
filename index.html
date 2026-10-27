@@ -449,7 +449,6 @@
       margin-bottom: 12px;
     }
 
-    /* Nota de la canción dedicada */
     .song-dedication-note {
       font-size: 0.88rem;
       color: #b5224e;
@@ -542,9 +541,16 @@
 
     .photo-caption {
       font-family: 'Dancing Script', cursive;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: #7a3e2d;
       margin-top: 8px;
+    }
+
+    .photo-timestamp {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #a8583b;
+      margin-top: 3px;
     }
 
     .btn-heart-save {
@@ -671,12 +677,13 @@
       </div>
 
       <div class="modal-desc">
-        Gracias por hacerme el hombre más feliz del mundo. Hoy empieza la aventura más hermosa de nuestras vidas.
+        Gracias por hacerme el hombre más feliz del mundo. Hoy empieza la aventura más hermosa de nuestras vidas. Te amo.
       </div>
 
+      <!-- FECHA DINÁMICA DE LA DECLARACIÓN -->
       <div class="date-box">
         <div class="date-label">Fecha Inolvidable</div>
-        <div class="date-value">jueves, 29 de octubre de 2026</div>
+        <div class="date-value" id="dynamic-date-display">Cargando fecha...</div>
       </div>
 
       <!-- Cámara iPhone -->
@@ -686,10 +693,11 @@
         📸 Tómate una foto para el recuerdo
       </button>
 
-      <!-- Foto tomada -->
+      <!-- Foto tomada con su fecha guardada permanente -->
       <div id="photo-preview-wrap">
         <img id="captured-photo" src="" alt="Recuerdo">
         <div class="photo-caption">Nuestra primera foto de novios ✨</div>
+        <div class="photo-timestamp" id="photo-timestamp"></div>
       </div>
 
       <button class="btn-heart-save" onclick="dispararMasConfeti()">
@@ -699,6 +707,18 @@
   </div>
 
   <script>
+    // Generador de fecha actual formateada en español
+    function obtenerFechaEspanol() {
+      const ahora = new Date();
+      const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const fechaTexto = ahora.toLocaleDateString('es-ES', opciones);
+      // Poner la primera letra en minúscula como es usual en español ("jueves, 29 de octubre de 2026")
+      return fechaTexto.charAt(0).toLowerCase() + fechaTexto.slice(1);
+    }
+
+    const dynamicDateDisplay = document.getElementById('dynamic-date-display');
+    const photoTimestamp = document.getElementById('photo-timestamp');
+
     // Partículas de fondo
     const heartsLayer = document.getElementById('hearts-layer');
     const heartIcons = ['❤️', '🌸', '✨', '💕', '🌹'];
@@ -726,15 +746,22 @@
     const musicTitle = document.getElementById('music-title');
     const openBtn = document.getElementById('open-envelope-btn');
 
-    // Apertura del sobre: desbloquea ambos audios en el móvil
+    // Apertura del sobre
     function startExperience() {
+      // 1. Asignar fecha en vivo al momento de abrir si aún no se ha sellado
+      const fechaGuardada = localStorage.getItem('fechaOficialNovios');
+      if (fechaGuardada) {
+        dynamicDateDisplay.innerText = fechaGuardada;
+      } else {
+        dynamicDateDisplay.innerText = obtenerFechaEspanol();
+      }
+
       audioPrincipal.play().then(() => {
         vinyl.classList.remove('paused');
       }).catch(err => {
-        console.log("Esperando interacción:", err);
+        console.log("Esperando toque para audio:", err);
       });
 
-      // Precarga el segundo audio
       audioCelebracion.load();
 
       introScreen.style.opacity = '0';
@@ -748,7 +775,7 @@
     openBtn.addEventListener('click', startExperience);
     openBtn.addEventListener('touchstart', startExperience, { passive: true });
 
-    // Alternar pausa en el vinilo
+    // Alternar pausa en el tocadiscos
     function toggleAudio() {
       if (musicaActual.paused) {
         musicaActual.play();
@@ -787,13 +814,18 @@
     const btnCloseModal = document.getElementById('btn-close-modal');
 
     btnYes.addEventListener('click', () => {
+      // Actualizar fecha del día si aún no existía
+      if (!localStorage.getItem('fechaOficialNovios')) {
+        const fechaHoy = obtenerFechaEspanol();
+        dynamicDateDisplay.innerText = fechaHoy;
+      }
+
       celebrationModal.style.display = 'flex';
 
-      // 1. Detener la música principal
+      // Cambio de pista
       audioPrincipal.pause();
       audioPrincipal.currentTime = 0;
 
-      // 2. Encender la música de celebración
       audioCelebracion.currentTime = 0;
       audioCelebracion.volume = 1.0;
       
@@ -812,7 +844,7 @@
       dispararMasConfeti();
     });
 
-    // Botón X para cerrar modal y regresar
+    // Cerrar modal y volver a la carta con la X
     btnCloseModal.addEventListener('click', () => {
       celebrationModal.style.display = 'none';
 
@@ -824,7 +856,7 @@
       }).catch(err => console.log(err));
     });
 
-    // Cámara en iPhone y persistencia de foto
+    // Cámara en iPhone y guardado definitivo de la foto y su fecha
     const cameraInput = document.getElementById('cameraInput');
     const btnTriggerCamera = document.getElementById('btn-trigger-camera');
     const photoPreviewWrap = document.getElementById('photo-preview-wrap');
@@ -839,28 +871,44 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-          capturedPhoto.src = event.target.result;
+          const imagenBase64 = event.target.result;
+          const fechaDelRecuerdo = obtenerFechaEspanol();
+
+          capturedPhoto.src = imagenBase64;
+          photoTimestamp.innerText = "📸 Guardado el " + fechaDelRecuerdo;
           photoPreviewWrap.style.display = 'block';
           btnTriggerCamera.innerHTML = '📸 Tomar otra foto';
-          
+
+          // Guardar permanentemente en el navegador
           try {
-            localStorage.setItem('fotoRecuerdoNovios', event.target.result);
+            localStorage.setItem('fotoRecuerdoNovios', imagenBase64);
+            localStorage.setItem('fechaOficialNovios', fechaDelRecuerdo);
+            dynamicDateDisplay.innerText = fechaDelRecuerdo;
           } catch(err) {
             console.log("Almacenamiento local restringido");
           }
-          
+
           dispararMasConfeti();
         };
         reader.readAsDataURL(file);
       }
     });
 
-    // Cargar foto si ya se había tomado previamente
+    // Comprobar si ya había una foto y fecha guardadas de antes
     const savedPhoto = localStorage.getItem('fotoRecuerdoNovios');
+    const savedDate = localStorage.getItem('fechaOficialNovios');
+
     if (savedPhoto) {
       capturedPhoto.src = savedPhoto;
       photoPreviewWrap.style.display = 'block';
       btnTriggerCamera.innerHTML = '📸 Tomar otra foto';
+    }
+
+    if (savedDate) {
+      dynamicDateDisplay.innerText = savedDate;
+      photoTimestamp.innerText = "📸 Guardado el " + savedDate;
+    } else {
+      dynamicDateDisplay.innerText = obtenerFechaEspanol();
     }
 
     // Efecto de Confeti
